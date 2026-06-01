@@ -105,15 +105,20 @@ input:-webkit-autofill:focus {
 }
 
 /* Waitlist Form and Button Layout Fixes */
+#waitlist form {
+    padding: 1rem !important; /* Increased from p-3 (12px) to p-4 (16px) for more outer breathing room */
+}
+
 #waitlist form > div {
     display: grid !important;
     grid-template-columns: 1fr !important;
-    gap: 0.5rem !important;
+    gap: 0.75rem !important; /* Increased gap on mobile to 12px */
 }
 
 @media (min-width: 640px) {
     #waitlist form > div {
         grid-template-columns: 1fr 1fr auto !important;
+        gap: 0.75rem !important; /* Increased gap on desktop to 12px */
     }
 }
 
