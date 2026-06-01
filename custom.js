@@ -79,27 +79,39 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: formData
                 })
                 .then(response => {
-                    // Show confirmation card to user immediately
-                    form.innerHTML = `
-                        <div class="text-center py-10 px-6 text-white">
-                            <div class="font-serif text-3xl mb-6 font-semibold" style="background: linear-gradient(135deg, oklch(0.88 0.18 175), oklch(0.78 0.2 150)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Reservation Confirmed!</div>
-                            <p class="text-sm text-white/85 leading-relaxed mb-4">Welcome to the future of sustainable living.</p>
-                            <p class="text-sm text-white/50 leading-relaxed mb-3">We've reserved a founding spot for:</p>
-                            <div class="inline-block border border-white/10 bg-white/5 rounded-xl py-2.5 px-5 text-sm text-white font-medium tracking-wide mt-2 font-mono">${emailInput.value}</div>
-                        </div>
-                    `;
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        return response.json().then(data => {
+                            throw new Error(data.message || "Server error: " + response.status);
+                        }).catch(() => {
+                            throw new Error("Server responded with status: " + response.status);
+                        });
+                    }
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Show confirmation card to user immediately
+                        form.innerHTML = `
+                            <div class="text-center py-10 px-6 text-white">
+                                <div class="font-serif text-3xl mb-6 font-semibold" style="background: linear-gradient(135deg, oklch(0.88 0.18 175), oklch(0.78 0.2 150)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Reservation Confirmed!</div>
+                                <p class="text-sm text-white/85 leading-relaxed mb-4">Welcome to the future of sustainable living.</p>
+                                <p class="text-sm text-white/50 leading-relaxed mb-3">We've reserved a founding spot for:</p>
+                                <div class="inline-block border border-white/10 bg-white/5 rounded-xl py-2.5 px-5 text-sm text-white font-medium tracking-wide mt-2 font-mono">${emailInput.value}</div>
+                            </div>
+                        `;
+                    } else {
+                        throw new Error(data.message || "Form submission rejected by email service.");
+                    }
                 })
                 .catch(error => {
-                    console.error("Web3Forms Error:", error);
-                    // Fallback to show success message so user experience is smooth
-                    form.innerHTML = `
-                        <div class="text-center py-10 px-6 text-white">
-                            <div class="font-serif text-3xl mb-6 font-semibold" style="background: linear-gradient(135deg, oklch(0.88 0.18 175), oklch(0.78 0.2 150)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Reservation Confirmed!</div>
-                            <p class="text-sm text-white/85 leading-relaxed mb-4">Welcome to the future of sustainable living.</p>
-                            <p class="text-sm text-white/50 leading-relaxed mb-3">We've reserved a founding spot for:</p>
-                            <div class="inline-block border border-white/10 bg-white/5 rounded-xl py-2.5 px-5 text-sm text-white font-medium tracking-wide mt-2 font-mono">${emailInput.value}</div>
-                        </div>
-                    `;
+                    console.error("Web3Forms Submission Error:", error);
+                    // Re-enable form fields to let user modify inputs and try again
+                    button.disabled = false;
+                    nameInput.disabled = false;
+                    emailInput.disabled = false;
+                    button.innerHTML = 'Reserve <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right h-4 w-4 transition group-hover:translate-x-1 shrink-0" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>';
+                    alert("Reservation failed: " + error.message + "\n\nPlease check your internet connection or domain restrictions.");
                 });
             }
         });
