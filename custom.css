@@ -109,14 +109,14 @@ input:-webkit-autofill:focus {
     padding: 1rem !important; /* Increased from p-3 (12px) to p-4 (16px) for more outer breathing room */
 }
 
-#waitlist form > div {
+#waitlist form .form-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
     gap: 0.75rem !important; /* Increased gap on mobile to 12px */
 }
 
 @media (min-width: 640px) {
-    #waitlist form > div {
+    #waitlist form .form-grid {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto !important;
         gap: 0.75rem !important; /* Increased gap on desktop to 12px */
     }
