@@ -1,0 +1,105 @@
+/* Define fonts */
+@font-face {
+    font-family: 'CameraPlainVariable';
+    src: url('./assets/fonts/CameraPlainVariable.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Global Styling Rules */
+:root {
+    --font-serif: 'Instrument Serif', 'Playfair Display', Georgia, serif !important;
+}
+
+/* Ensure Instrument Serif renders in its elegant, natural weight (400) */
+h1.font-serif, h2.font-serif, h3.font-serif, .font-serif {
+    font-family: 'Instrument Serif', 'Playfair Display', Georgia, serif !important;
+    font-weight: 400 !important;
+}
+
+/* Scale up the desktop h1 so the condensed font fits the website layout beautifully */
+@media (min-width: 1024px) {
+    h1.font-serif {
+        font-size: 6.8rem !important;
+        line-height: 0.95 !important;
+    }
+}
+
+/* Make small fonts slightly larger and more readable globally */
+.text-xs {
+    font-size: 0.85rem !important;
+}
+
+.text-sm {
+    font-size: 0.95rem !important;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* 
+  Remove All Animations, Transitions, and Hover Movements
+  Disable all animations and transitions globally.
+*/
+*, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+}
+
+/* Force all pre-rendered Framer Motion hidden elements to be instantly visible */
+[style*="opacity:0"], 
+[style*="opacity: 0"],
+[style*="opacity:0"] *,
+[style*="opacity: 0"] * {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Disable hover shifts, scaling, and translating */
+.hover\:-translate-y-1:hover {
+    transform: none !important;
+}
+
+.group:hover .group-hover\:scale-\[1\.02\] {
+    transform: none !important;
+}
+
+.group:hover .group-hover\:translate-x-1 {
+    transform: none !important;
+}
+
+/* Remove button pulses, floats, and custom hover transitions */
+a[href="#waitlist"], button[type="submit"] {
+    animation: none !important;
+    transform: none !important;
+    box-shadow: 0 10px 40px -10px oklch(0.75 0.2 175 / 0.6) !important;
+}
+
+.relative.overflow-hidden.ring-glow img {
+    animation: none !important;
+    transform: none !important;
+}
+
+.group.relative.overflow-hidden.rounded-3xl.border,
+.group.relative.flex.h-full.flex-col.rounded-3xl.border,
+.rounded-3xl.border.border-border.bg-card\/70.p-8 {
+    transform: none !important;
+    box-shadow: var(--shadow-soft) !important;
+}
+
+/* Custom form autocomplete styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0px 1000px oklch(22% .02 155) inset !important;
+}
