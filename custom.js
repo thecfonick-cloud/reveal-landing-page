@@ -1,4 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Initialize Lenis Smooth Scroll
+    if (typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // premium easeOutExpo curve
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1.0,
+            smoothTouch: false, // keep natural mobile touch scrolling behavior
+            touchMultiplier: 1.5,
+            infinite: false
+        });
+
+        // Use requestAnimationFrame to drive Lenis updates
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Sync header navigation link click scrolls with Lenis animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    lenis.scrollTo(target, {
+                        offset: -20,
+                        duration: 1.2,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                    });
+                }
+            });
+        });
+    }
     // 1. Mobile & Autoplay Video Safety
     const videos = document.querySelectorAll('video');
     videos.forEach(video => {
