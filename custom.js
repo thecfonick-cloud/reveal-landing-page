@@ -123,4 +123,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (impactSection) {
         observer.observe(impactSection);
     }
+
+    // 4. Scroll Reveal Animations (Lovable-Style)
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    const revealObserverOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px', // Trigger slightly before entering view for a smooth feel
+        threshold: 0.05
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealObserverOptions);
+
+    revealElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        // If the element is already inside/above the viewport, reveal it immediately on load
+        if (rect.top < window.innerHeight - 20) {
+            el.classList.add('revealed');
+        } else {
+            revealObserver.observe(el);
+        }
+    });
 });
