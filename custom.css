@@ -117,7 +117,7 @@ input:-webkit-autofill:focus {
 
 @media (min-width: 640px) {
     #waitlist form > div {
-        grid-template-columns: 1fr 1fr auto !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto !important;
         gap: 0.75rem !important; /* Increased gap on desktop to 12px */
     }
 }
@@ -132,5 +132,10 @@ input:-webkit-autofill:focus {
     flex-shrink: 0 !important;
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
+}
+
+#waitlist form input {
+    min-width: 0 !important;
+    width: 100% !important;
 }
 
